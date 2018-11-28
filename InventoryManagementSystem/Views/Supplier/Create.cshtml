@@ -1,0 +1,112 @@
+﻿@model InventoryManagementSystem.Models.Supplier
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+    </style>
+
+}
+
+
+@using (Html.BeginForm("Create", "Supplier", FormMethod.Post, new { id = "saveSupplierForm"})) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4><i class="fas fa-info-circle"></i> New Supplier</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SuppliersName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SuppliersName)
+                @Html.ValidationMessageFor(model => model.SuppliersName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CellNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CellNo)
+                @Html.ValidationMessageFor(model => model.CellNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address)
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AddedBy, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AddedBy)
+                @Html.ValidationMessageFor(model => model.AddedBy)
+            </div>
+        </div>
+
+        <input type="hidden" id="IsActive" name="IsActive" value="Yes" />
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="@Url.Action("Index","Supplier")" class=""><i class="fas fa-fast-backward"></i>Back</a>
+</div>
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        $("#saveSupplierForm").validate({
+            rules: {
+                SuppliersName: "required",
+                CellNo: "required",
+                Address: {
+                    required: true,
+                    maxlength: 200,
+                    minlength: 5,
+
+                },
+           
+                AddedBy: "required",
+            },
+            messages: {
+                SuppliersName: "Please enter supplier name",
+                CellNo: "Please enter phone number ",
+                Address:
+                   {
+                       required: "Please enter product quantity ",
+                       maxlength: "Address takes maximum of 200 charecter",
+                       minlength: "Address takes minimum of 5 charecter",
+                   },
+                
+                AddedBy: "Please enter your name",
+
+            }
+        });
+
+    </script>
+}

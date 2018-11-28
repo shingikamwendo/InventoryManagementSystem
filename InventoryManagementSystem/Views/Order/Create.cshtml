@@ -1,0 +1,118 @@
+﻿@model InventoryManagementSystem.Models.Order
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+    </style>
+
+}
+
+    @using (Html.BeginForm("Create", "Order", FormMethod.Post, new { id = "saveOrderForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4><i class="fas fa-info-circle"></i> New Order</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+
+            <div class="form-group">
+                <label for="" class="control-label col-md-2">Order Date </label>
+                <div class="col-md-10">
+                    <input type="date" id="OrderDate" name="OrderDate" />
+                    @Html.ValidationMessageFor(model => model.OrderDate)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ProductId", String.Empty)
+                    @Html.ValidationMessageFor(model => model.ProductId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerId, "Customer", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("CustomerId", String.Empty)
+                    @Html.ValidationMessageFor(model => model.CustomerId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddedBy, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddedBy)
+                    @Html.ValidationMessageFor(model => model.AddedBy)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity)
+                    @Html.ValidationMessageFor(model => model.Quantity)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UnitPrice, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.UnitPrice)
+                    @Html.ValidationMessageFor(model => model.UnitPrice)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+<div>
+    <a href="@Url.Action("Index","Order")" class=""><i class="fas fa-fast-backward"></i>Back</a>
+</div>
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        $("#saveOrderForm").validate({
+            rules: {
+                OrderDate: "required",
+                ProductId: "required",
+                CustomerId: "required",
+                AddedBy: "required",
+                Quantity:"required",
+                UnitPrice: "required",
+            },
+            messages: {
+                OrderDate: "Please select order date",
+                ProductId: "Please select the product",
+                CustomerId: "Please select the customer",
+                AddedBy: "Please enter your name",
+                Quantity:"Please enter order quantity",
+                UnitPrice:"Please enter unit price",
+            }
+        });
+
+    </script>
+}

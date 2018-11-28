@@ -1,0 +1,110 @@
+﻿@model InventoryManagementSystem.Models.User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+        
+    </style>
+    
+}
+
+    <div class="main-page login-page ">
+
+        <div class="widget-shadow">
+            <div class="login-top">
+                <h4>Not a Member? <a href="@Url.Action("Create","User")">  Sign Up »</a> </h4>
+            </div>
+            <div class="login-body">
+
+                @using (Html.BeginForm("Login", "User", FormMethod.Post, new { id = "saveLoginForm" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserName)
+                                @Html.ValidationMessageFor(model => model.UserName)
+                                
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                                
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Login" class="btn btn-primary" />
+                                <br />
+                                <span style="font-style:italic;color:red">@ViewBag.msg</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+                <div class="forgot-grid">
+                    <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i></i>Remember me</label>
+                    <div class="forgot">
+                        <a href="@Url.Action("Edit","User")">@ViewBag.forgot</a>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        $("#saveLoginForm").validate({
+            rules: {
+                UserName: "required",
+                Password: {
+                    required: true,
+                    maxlength: 20,
+                    minlength: 5
+                },
+               
+            },
+            messages: {
+                UserName: "Please enter user name",
+                Password: {
+                    required: "Please enter the password",
+                    maxlength: "Password must consist of at most 20 characters",
+                    minlength: "Password must consist of at least 5 characters"
+                },
+               
+            }
+        });
+
+    </script>
+}

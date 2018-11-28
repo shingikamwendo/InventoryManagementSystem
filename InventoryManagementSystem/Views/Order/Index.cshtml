@@ -1,0 +1,64 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.Order>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h4 style="display:inline;float:left;margin-bottom:5px;"><i class="fas fa-list-ul"></i>Orders : @ViewBag.OrderList</h4>
+<h4 style="display: inline; float: right; margin-bottom: 5px;">
+    <a href="@Url.Action("Create", "Order")" class=""><i class="fas fa-plus-circle"></i>Add Order</a>
+
+</h4>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </th>
+        <th>Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stock.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitPrice)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "Order", new { id = item.OrderId })" class="btn btn-primary btn-edit"><i class="fas fa-pen-square"></i></a> |
+            <a href="@Url.Action("Delete", "Order", new { id = item.OrderId })" class="btn btn-danger btn-edit"><i class="far fa-trash-alt"></i></a>
+        </td>
+    </tr>
+}
+
+</table>

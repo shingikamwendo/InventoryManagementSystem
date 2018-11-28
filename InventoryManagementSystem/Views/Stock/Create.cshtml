@@ -1,0 +1,103 @@
+﻿@model InventoryManagementSystem.Models.Stock
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+     
+    </style>
+
+}
+
+
+    @using (Html.BeginForm("Create", "Stock", FormMethod.Post, new {id="saveStockForm", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4><i class="fas fa-info-circle"></i> New Product</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProductName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ProductName)
+                    @Html.ValidationMessageFor(model => model.ProductName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity)
+                    @Html.ValidationMessageFor(model => model.Quantity)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageUrl, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" id="ImageFile" name="ImageFile" required />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddedBy, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddedBy)
+                    @Html.ValidationMessageFor(model => model.AddedBy)
+                </div>
+            </div>
+
+
+            <input type="hidden" id="IsActive" name="IsActive" value="Yes" />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+<div>
+    <a href="@Url.Action("Index","Stock")" class=""><i class="fas fa-fast-backward"></i>Back</a>
+</div>
+
+@section Scripts {
+   
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $("#saveStockForm").validate({
+        rules: {
+            ProductName: "required",
+            Quantity: "required",        
+            ImageFile: "required",
+            AddedBy: "required",                     
+        },
+        messages: {
+            ProductName: "Please enter product name",
+            Quantity: "Please enter product quantity ",
+            ImageFile: "Please select the image",
+            AddedBy: "Please enter your name",
+
+        }
+    });
+
+</script>
+
+
+}

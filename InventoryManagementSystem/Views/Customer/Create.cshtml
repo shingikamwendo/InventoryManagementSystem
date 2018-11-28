@@ -1,0 +1,116 @@
+﻿@model InventoryManagementSystem.Models.Customer
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+    </style>
+
+}
+
+    @using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { id = "saveCustomerForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4><i class="fas fa-info-circle"></i> New Customer</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CustomerName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CustomerName)
+                    @Html.ValidationMessageFor(model => model.CustomerName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CellNo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CellNo)
+                    @Html.ValidationMessageFor(model => model.CellNo)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AddedBy, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.AddedBy)
+                    @Html.ValidationMessageFor(model => model.AddedBy)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.OrderId, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.OrderId)
+                    @Html.ValidationMessageFor(model => model.OrderId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+<div>
+    <a href="@Url.Action("Index","Customer")" class=""><i class="fas fa-fast-backward"></i>Back</a>
+</div>
+
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        $("#saveCustomerForm").validate({
+            rules: {
+                CustomerName: "required",
+                Address:{
+                    required: true,
+                    maxlength: 200,
+                    minlength:5,
+
+                },
+                CellNo: "required",                
+                AddedBy: "required",
+                OrderId: "required",
+            },
+            messages: {
+                CustomerName: "Please enter product name",
+                Address:
+                    {
+                        required:"Please enter product quantity ",
+                        maxlength: "Address takes maximum of 200 charecter",
+                        minlength:"Address takes minimum of 5 charecter",
+                    },
+                CellNo: "Please input phone number",
+                AddedBy: "Please enter your name",
+                OrderId:"Please input the order"
+            }
+        });
+
+    </script>
+}

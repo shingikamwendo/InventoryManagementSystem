@@ -1,0 +1,61 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.Customer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+<h4 style="display:inline;float:left;margin-bottom:5px;"><i class="fas fa-list-ul"></i>Customers : @ViewBag.CustomerList</h4>
+<h4 style="display: inline; float: right; margin-bottom: 5px;">
+    <a href="@Url.Action("Create","Customer")" class=""><i class="fas fa-plus-circle"></i>Add Customer</a>
+
+</h4>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CellNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CellNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderId)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit", "Customer", new { id = item.CustomerId })" class="btn btn-primary btn-edit"><i class="fas fa-pen-square"></i></a> |
+            <a href="@Url.Action("Delete", "Customer", new { id = item.CustomerId })" class="btn btn-danger btn-edit"><i class="far fa-trash-alt"></i></a>
+        </td>
+    </tr>
+}
+
+</table>
+
+
+

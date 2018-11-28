@@ -1,0 +1,153 @@
+﻿@model InventoryManagementSystem.Models.User
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+
+@section style
+    {
+    <style>
+        label.error {
+            color: red;
+            font-style: italic;
+            display: inline;
+        }
+    </style>
+
+}
+
+    @using (Html.BeginForm("Create", "User", FormMethod.Post, new { id = "saveUserForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4><i class="fas fa-info-circle"></i> New User</h4>
+            <hr />
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="text" id="UserName" name="UserName" onkeyup="CheckUser()" />
+                    <span id="message"></span>
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Password)
+                    @Html.ValidationMessageFor(model => model.Password)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RoleName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <select id="RoleName" name="RoleName" class="">
+                            <option value="Sales">Sales Person</option>
+                        </select>
+                    }
+                    else
+                    {
+                        <select id="RoleName" name="RoleName" class="">
+                            @*<option>- - - - - - -Select- - - - - - -</option>*@
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Sales">Sales Person</option>
+                        </select>
+                    }
+
+                    @Html.ValidationMessageFor(model => model.RoleName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EmployeeId, "Employee", new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("EmployeeId", String.Empty)
+                    @Html.ValidationMessageFor(model => model.EmployeeId)
+                </div>
+            </div>
+
+
+            <input type="hidden" id="IsActive" name="IsActive" value="Yes" />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+<div>
+    <a href="@Url.Action("Index","User")" class=""><i class="fas fa-fast-backward"></i>Back</a>
+</div>
+@section Scripts {
+
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+    <script>
+        $("#saveUserForm").validate({
+            rules: {
+                UserName: "required",
+                Password: {
+                    required: true,
+                    maxlength: 20,
+                    minlength: 5
+                },
+                RoleName: "required",
+                EmployeeId: "required",
+               
+            },
+            messages: {
+                UserName: "Please enter user name",
+                Password: {
+                    required: "Please enter the password",
+                    maxlength: "Password must consist of at most 20 characters",
+                    minlength: "Password must consist of at least 5 characters"
+                },
+                RoleName: "Please select role name",
+                EmployeeId: "Please select employee name",
+                
+
+            }
+        });
+
+    </script>
+<script>
+
+    function CheckUser() {
+
+        var email = $("#UserName").val();
+        $.ajax({
+            type: "POST",
+            url: "/User/CheckUserName",
+            data: '{username:"' + email + '"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var mass = $("#message");
+                if (result) {
+                    mass.html("User name is available!");
+                    mass.css("color", "Green");
+                }
+                else {
+                    mass.html("User name is not available!");
+                    mass.css("color", "Red");
+                }
+            }
+        });
+    }
+
+
+</script>
+}

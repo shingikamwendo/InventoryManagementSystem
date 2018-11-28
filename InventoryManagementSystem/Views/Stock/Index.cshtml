@@ -1,0 +1,81 @@
+﻿@model IEnumerable<InventoryManagementSystem.Models.Stock>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Master.cshtml";
+}
+
+@section style
+    {
+    <style>
+        .en {
+            color: #4CAF50;
+        }
+
+        .ds {
+            color: #C9302C;
+        }
+    </style>
+
+}
+<h4 style="display:inline;float:left;margin-bottom:5px;"><i class="fas fa-list-ul"></i>Stocks : @ViewBag.StockList</h4>
+<h4 style="display: inline; float: right; margin-bottom: 5px;">
+    <a href="@Url.Action("Create","Stock")" class=""><i class="fas fa-plus-circle"></i>Add Product</a>
+
+</h4>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>Action</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.ImageUrl)*@
+            <img src="@Url.Content(item.ImageUrl)" style="width:53px; height:30px;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedBy)
+        </td>
+        @if (item.IsActive == "Yes")
+        {
+            <td class="en">
+                <span>Available</span>
+            </td>
+        }
+        else
+        {
+            <td class="ds">
+                <span>Not Available</span>
+            </td>
+        }
+        <td>
+            <a href="@Url.Action("Edit","Stock",new { id = item.ProductID })" class="btn btn-primary btn-edit"><i class="fas fa-pen-square"></i></a> |
+            <a href="@Url.Action("Delete", "Stock", new { id = item.ProductID })" class="btn btn-danger btn-edit"><i class="far fa-trash-alt"></i></a>
+        </td>
+    </tr>
+}
+
+</table>
